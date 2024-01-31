@@ -1,13 +1,26 @@
-January 30th, - 1st Release(alpha_0.2)
-¡pre-release software!
+January 31st, 2024 - 1st Release(alpha_0.2)
 
-SOFTWARE LICENSE:
-the "prK" License was created on January 31st, 2024 by Travis Klett for the sole purpose of supplying the following individuals, and ONLY the following individuals, with this pre-release version of my untitled game:
-1. 'boofDaddy' (friend & avid game-tester)
-2. Julia (friend & peer-worker) 
-3. n/a
-You are hereby allowed to use, but not show, reproduce, or modify in any shape/way/form this code. Thank you for adhearing to this software licence. 
-Falure to use this software as set out in the prK license may result in legal action.
+¡pre-release software!
+Modified version of the MIT License
+Copyright (c) 2024 KlettGameStudios
+
+Permission is hereby granted, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, not including the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 Features Implemented:
 KnightGirl_Sprites(Jumping, Falling, Walking)
