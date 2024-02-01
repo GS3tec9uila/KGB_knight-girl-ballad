@@ -1,1 +1,0 @@
-Sprite made by: @Jump_Button (twitter / X)
