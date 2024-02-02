@@ -130,8 +130,8 @@ const player = add([
   sprite('idle-sprite'),
   area({shape: new Rect(vec2(0), 26, 32), offset: vec2(38,32)}),
   body(),
-  pos(310, 1200),
-  //pos(300,1523),
+  //pos(310, 1200),
+  pos(100,1523),
   //FALL/JUMP TESTING ^
   scale(2),
   state('idle',['idle','atk','def','jump','fall','run',], {
