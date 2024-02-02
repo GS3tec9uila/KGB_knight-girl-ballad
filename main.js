@@ -204,7 +204,7 @@ player.onStateUpdate('idle', () => {
   player.use(sprite('jump-sprite'))
   player.enterState('jump')
   player.play('jump-anim')
-  player.jump(420 * 1.5)}})
+  player.jump(420 * 1.69)}})
 player.onStateUpdate('jump', () => {
   if (player.isFalling()) {
     player.enterState('fall')}})
