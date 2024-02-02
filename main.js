@@ -1,3 +1,37 @@
+/*/
+¡COMMENTS, CREDITS, & SPCL-THNX!
+
+  0. Game develompment begun on: 
+     January 26th, 2024
+     Game development ended on:
+     x•x•x•x•x•x•x•x•x•x•x•x•x
+
+  1. MASSIVE thankyou to my Mother for supporting, 
+     housing & putting up w/ me during development:
+             ¡¡¡ I LOVE YOU MOM, XOXOXO !!!
+
+  2. MASSIVE thankyou to MF on the Kaboom.js Discord 
+     for help w/ animations & code organization 
+
+  3. HUGE thankyou & shoutout to @Jump_Button 
+     for their "Girl Knight Character" Assets Pack
+     ^ https://jumpbutton.itch.io/girlknightasset
+
+  4. HUGE thankyou to JSLegendDev for his tutorials &
+     putting me on to the Kaboom.js library
+     ^ https://github.com/JSLegendDev
+     ^ https://www.youtube.com/@JSLegendDev
+
+  5.
+
+  6.
+
+  7.
+
+  8.
+
+  9.
+/*/
 kaboom({
   width: 960,
   height: 440,
