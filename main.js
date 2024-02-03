@@ -53,7 +53,7 @@ loadSpriteAtlas('assets/newTiles.png', {
     y: 86,
     width: 14,
     height: 8,}})
-  loadSpriteAtlas('assets/grassTiles.png', {
+  loadSpriteAtlas('assets/groundTile.png', {
     'grass0':{
       x: 12,
       y: 0,
