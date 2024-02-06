@@ -2,11 +2,12 @@ kaboom({
   width: 640,
   height: 420,
   scale: 2})
-loadSound('bk', 'assets/player/sounds/track01.ogg')
+  // insert assets
+loadSprite('background', 'assets/backgrounds/winterZone1.png')
 loadSprite('idle-sprite', 'assets/player/idle.png', {
   sliceX: 4,
   sliceY: 1,
-  anims:{ 'idle-anim': { from: 0, to: 3, loop: true },'idle-anim2': { from: 0, to: 3, loop: true }}})
+  anims:{ 'idle-anim': { from: 0, to: 3, loop: true }}})
 loadSprite('run-sprite', 'assets/player/walk.png', {
   sliceX: 7,
   sliceY: 1,
@@ -27,7 +28,7 @@ loadSprite('fall-sprite', 'assets/player/fall.png', {
   sliceX: 3,
   sliceY: 1,
   anims:{ 'fall-anim': { from: 0, to: 2, loop: true }}})
-loadSpriteAtlas('assets/newTiles.png', {
+loadSpriteAtlas('assets/tiles/newTiles.png', {
   'platform-middle':{
     x: 112,
     y: 64,
@@ -53,19 +54,43 @@ loadSpriteAtlas('assets/newTiles.png', {
     y: 86,
     width: 14,
     height: 8,}})
-  loadSpriteAtlas('assets/groundTile.png', {
+  loadSpriteAtlas('assets/tiles/groundTile.png', {
     'grass0':{
       x: 12,
       y: 0,
       width: 96,
       height: 16,}})
+//
 setGravity(1000)
+// Difference between background vertical parts is X
+// X = 1036px - 480px = 556px
+// (dependant on scale = 2)
+const background1 = add([
+  sprite('background'),
+  scale(2),
+  area(),
+  pos(0,1036)
+])
+const background2 = add([
+  sprite('background'),
+  scale(2),
+  area(),
+  pos(0,480)
+])
+const background3 = add([
+  sprite('background'),
+  scale(2),
+  area(),
+  pos(0,0)
+])
+// Insert closeup-noninteractive sprites here:
 const rock0 = add([
   sprite('rockS'),
   scale(7),
   area(),
   pos(1175,1545),
 ])
+// tile mapping logic
 const map = addLevel([
   ' 4                                                           4 ',
   ' 4                                                           4 ',
@@ -92,7 +117,7 @@ const map = addLevel([
   ' 4        00                                                 4 ',
   ' 4                                                         004 ',
   ' 4                                                           4 ',
-  ' 3     3     3     3     3     3     3     3     3     3     3 '],{
+  ' 3    3    3    3    3    3    3    3    3    3    3    3    3 '],{
 tileWidth: 16,
 tileHeight: 16,
 tiles: {
@@ -113,12 +138,14 @@ tiles: {
     opacity(0),
     area(),
     body({isStatic: true})]}})
+
 map.use(scale(4))
+// player logic
 const player = add([
   sprite('idle-sprite'),
   area({shape: new Rect(vec2(0), 26, 32), offset: vec2(38,32)}),
   body(),
-    pos(300,1480),
+    pos(300,1140),
     scale(2.69),
   state('idle',['idle','atk','def','jump','fall','run',], {
     'idle': ['atk','run','jump','def','idle','fall'],
@@ -131,32 +158,18 @@ const player = add([
      previousHeight: null,
      heightData: 0,
      direction: 'right'}])
+// game logic
 player.onStateEnter('idle', () => {
 player.use(sprite('idle-sprite'))
 player.play('idle-anim')
 wait(time, () => player.enterState())})
-/* onKeyDown('space', () => {
-  if (player.curAnim() !== 'jump-anim' && player.isGrounded()) {
-    player.use(sprite('jump-sprite'))
-    player.play('jump-anim')
-    player.jump(420 + (0.69 * 69) * 4.20 - 4.20)}})
-    onKeyRelease('space', () => {
-      if (player.isFalling) {
-        player.enterState('fall')
-        player.use(sprite('fall-sprite'))
-        player.play('fall-anim')
-      }
-      if (player.isGrounded) {
-        player.enterState('idle')
-        player.use(sprite('idle-sprite'))
-        player.play('idle-anim')
-      }
-    }) */
+
 onKeyDown('.', () => {
   if (player.curAnim() !== 'atk-anim' && player.isGrounded()) {
     player.use(sprite('atk-sprite'))
     player.enterState('atk')
     player.play('atk-anim')}})
+
 onKeyRelease('.', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
@@ -167,6 +180,7 @@ onKeyDown(',',() => {
     player.use(sprite('block-sprite'))
     player.enterState('def')
     player.play('block-anim')}})
+
 onKeyDown('d', () => {
   if (player.curAnim() !== 'run-anim' && player.isGrounded()) {
       player.use(sprite('run-sprite'))
@@ -174,17 +188,20 @@ onKeyDown('d', () => {
       player.play('run-anim')}
   if (player.direction !== 'right') player.direction = 'right'
   player.move(player.speed, 0)})
+
 onKeyRelease('d', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
   player.play('idle-anim')})
+
 onKeyDown('a', () => {
   if (player.curAnim() !== 'run-anim' && player.isGrounded()) {
-      player.use(sprite('run-sprite'))
-      player.enterState('run')
-      player.play('run-anim')}
+    player.use(sprite('run-sprite'))
+    player.enterState('run')
+    player.play('run-anim')}
   if (player.direction !== 'left') player.direction = 'left'
-  player.move(-player.speed, 0)})
+    player.move(-player.speed, 0)})
+
 onKeyRelease('a', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle') })
@@ -192,14 +209,21 @@ onKeyRelease('a', () => {
 player.onStateEnter('idle', () => {
   player.use(sprite('idle-sprite'))
   player.play('idle-anim')})
+
 player.onStateEnter('jump', () => {
   player.use(sprite('jump-sprite'))
   player.play('jump-anim')})
-player.onStateEnter('fall', () => {
-    player.use(sprite('fall-sprite'))
-    player.play('fall-anim')})
-camScale(.5)
 
+player.onStateEnter('fall', () => {
+  player.use(sprite('fall-sprite'))
+  player.play('fall-anim')})
+
+player.onStateEnter('run', () => {
+  player.use(sprite('run-sprite'))
+  player.play('run-anim')})
+// game logic ()
+camScale(.5)
+// game logic (update functions)
 onUpdate(() => {
   const cameraLeftBound = 711
   const cameraRightBound = 3317
@@ -219,15 +243,21 @@ onUpdate(() => {
       player.flipX = true}
       else {
       player.flipX = false}})
+
 player.onStateUpdate('idle', () => {
   if (isKeyDown('space')) {
-  player.use(sprite('jump-sprite'))
-  player.enterState('jump')
-  player.play('jump-anim')
-  player.jump(420 * 1.5)}})
+    player.use(sprite('jump-sprite'))
+    player.enterState('jump')
+    player.play('jump-anim')
+    player.jump(420 * 1.5)}})
 player.onStateUpdate('jump', () => {
   if (player.isFalling()) {
     player.enterState('fall')}})
 player.onStateUpdate('fall', () => {
   if (player.isGrounded()) {
     player.enterState('idle')}})
+player.onStateUpdate('run', () => {
+  if (isKeyDown('space')) {
+    player.enterState('jump')
+    player.play('jump-anim')
+    player.jump(420 * 1.5)}})
