@@ -6,6 +6,7 @@ kaboom({
   // insert assets
 loadSprite('1dummy', 'assets/dummies/xtrain.png')
 loadSprite('1dummy-right', 'assets/dummies/xRtrain.png')
+loadSprite('1dummy-iced', 'assets/dummies/xItrain.png')
 loadSprite('idle-sprite', 'assets/player/idle.png', {
   sliceX: 4,
   sliceY: 1,
@@ -67,27 +68,28 @@ loadSpriteAtlas('assets/tiles/newTiles.png', {
       width: 96,
       height: 16,}})
 setGravity(1000)
-// Insert noninteractive sprites here:
-const rock0 = add([
-  sprite('rockS'),
-  scale(7),
-  area(),
-  pos(210,1544)])
 // Insert interactive sprites here:
 const dummy0 = add([
-  sprite('1dummy'),
+  sprite('1dummy-iced'),
   scale(6),
   area(),
-  body({isStatic: true}),
-  pos(2100,1408),
+  body(),
+  pos(310,1050),
   'enemy'])
   const dummy1 = add([
     sprite('1dummy-right'),
     scale(6),
     area(),
-    body(),
-    pos(3000,0),
+    body({isStatic: true}),
+    pos(3500,450),
     'enemy'])
+    const dummy2 = add([
+      sprite('1dummy'),
+      scale(6),
+      area(),
+      body({isStatic: true}),
+      pos(2120,1410),
+      'enemy'])
 // tile mapping logic
 const map = addLevel([
   ' 4                                                           4 ',
@@ -136,14 +138,13 @@ tiles: {
     opacity(0),
     area(),
     body({isStatic: true})],}})
-
 map.use(scale(4))
 // player logic
 const player = add([
   sprite('idle-sprite'),
   area({shape: new Rect(vec2(0), 26, 32), offset: vec2(38,32)}),
   body(),
-    pos(25,1140),
+    pos(25,1050),
     scale(2.69),
   state('idle',['idle','atk','def','jump','fall','run','crouch'], {
     'idle': ['atk','run','jump','def','idle','fall','crouch'],
