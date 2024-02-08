@@ -198,11 +198,6 @@ onKeyDown('.', () => {
       destroy(enemy)
     })}})
 
-onKeyRelease('.', () => {
-  player.use(sprite('idle-sprite'))
-  player.enterState('idle')
-  player.play('idle-anim')})
-
 onKeyDown(',',() => {
   if (player.curAnim() !== 'block-anim' && player.isGrounded()) {
     player.use(sprite('block-sprite'))
@@ -304,6 +299,10 @@ player.onStateUpdate('atk', () => {
      if (player.isColliding(enemy))
         destroy('enemy')})}})
 onKeyRelease('s', () => {
+  player.use(sprite('idle-sprite'))
+  player.enterState('idle')
+  player.play('idle-anim')})
+onKeyRelease('.', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
   player.play('idle-anim')})
