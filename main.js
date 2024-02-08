@@ -7,6 +7,7 @@ kaboom({
 loadSprite('1dummy', 'assets/dummies/xtrain.png')
 loadSprite('1dummy-right', 'assets/dummies/xRtrain.png')
 loadSprite('1dummy-iced', 'assets/dummies/xItrain.png')
+loadSprite('sign0', 'assets/misc/sign0.png')
 loadSprite('idle-sprite', 'assets/player/idle.png', {
   sliceX: 4,
   sliceY: 1,
@@ -68,13 +69,20 @@ loadSpriteAtlas('assets/tiles/newTiles.png', {
       width: 96,
       height: 16,}})
 setGravity(1000)
-// Insert interactive sprites here:
+// Insert non-interactives NO BODY PROPERTY
+const sign0 = add([
+  sprite('sign0'),
+  scale(6),
+  area(),
+  pos(785,1380)
+])
+// Insert interactives W/ BODY PROPERTY
 const dummy0 = add([
   sprite('1dummy-iced'),
   scale(6),
   area(),
   body(),
-  pos(310,1050),
+  pos(302,1050),
   'enemy'])
   const dummy1 = add([
     sprite('1dummy-right'),
@@ -115,9 +123,9 @@ const map = addLevel([
   ' 4                               4                           4 ',
   ' 4                               4                    0      4 ',
   ' 4                                                           4 ',
-  ' 4         000                          000000            0000 ',
+  ' 4          00                          000000            0000 ',
   ' 4                  000                                      4 ',
-  ' 000000                     00000000               00000000000 '],{
+  ' 0000000                    00000000               00000000000 '],{
 tileWidth: 16,
 tileHeight: 16,
 tiles: {
@@ -277,8 +285,8 @@ player.onStateUpdate('run', () => {
 player.onStateUpdate('atk', () => {
   if (isKeyDown('.')) {
     get('enemy').forEach(enemy => {
-      if (player.isColliding(enemy)) {
-        destroy('enemy')}})}})
+     if (player.isColliding(enemy))
+        destroy('enemy')})}})
 onKeyRelease('s', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
