@@ -78,8 +78,8 @@ const dummy0 = add([
   sprite('1dummy'),
   scale(6),
   area(),
-  body(),
-  pos(2100,1000),
+  body({isStatic: true}),
+  pos(2100,1408),
   'enemy'])
   const dummy1 = add([
     sprite('1dummy-right'),
