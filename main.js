@@ -4,7 +4,7 @@ kaboom({
   scale: 1.75,
   background: [255, 255, 0,]})
   // insert assets
-loadSprite('train_dummy', 'assets/dummies/training1.png')
+loadSprite('train_dummy', 'assets/dummies/xtrain.png')
 loadSprite('idle-sprite', 'assets/player/idle.png', {
   sliceX: 4,
   sliceY: 1,
@@ -96,8 +96,8 @@ const map = addLevel([
   ' 4                               4                        0000 ',
   ' 4                               4                           4 ',
   ' 4                               4                    0      4 ',
-  ' 4                                                           4 ',
-  ' 4         000                   1      000000            0000 ',
+  ' 4                                1                          4 ',
+  ' 4         000                          000000            0000 ',
   ' 4                  000                                      4 ',
   ' 000000                     00000000               00000000000 '],{
 tileWidth: 16,
@@ -122,7 +122,7 @@ tiles: {
     body({isStatic: true})],
   1: () => [
     sprite('train_dummy'),
-    scale(1.4),
+    scale(1.5),
     area(),
     body({isStatic: true})
   ]}})
@@ -169,6 +169,7 @@ onKeyDown(',',() => {
     player.use(sprite('block-sprite'))
     player.enterState('def')
     player.play('block-anim')}})
+
 onKeyRelease(',', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
