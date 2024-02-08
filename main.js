@@ -1,9 +1,10 @@
 kaboom({
   width: 640,
   height: 420,
-  scale: 2})
+  scale: 1.75,
+  background: [255, 255, 0,]})
   // insert assets
-loadSprite('background', 'assets/backgrounds/winterZone1.png')
+loadSprite('train_dummy', 'assets/dummies/training1.png')
 loadSprite('idle-sprite', 'assets/player/idle.png', {
   sliceX: 4,
   sliceY: 1,
@@ -28,6 +29,10 @@ loadSprite('fall-sprite', 'assets/player/fall.png', {
   sliceX: 3,
   sliceY: 1,
   anims:{ 'fall-anim': { from: 0, to: 2, loop: true }}})
+loadSprite('crouch-sprite', 'assets/player/c-idle.png', {
+  sliceX: 3,
+  sliceY: 1,
+  anims:{ 'crouch-anim': { from: 0, to: 2, loop: true }}})
 loadSpriteAtlas('assets/tiles/newTiles.png', {
   'platform-middle':{
     x: 112,
@@ -60,36 +65,13 @@ loadSpriteAtlas('assets/tiles/newTiles.png', {
       y: 0,
       width: 96,
       height: 16,}})
-//
 setGravity(1000)
-// Difference between background vertical parts is X
-// X = 1036px - 480px = 556px
-// (dependant on scale = 2)
-const background1 = add([
-  sprite('background'),
-  scale(2),
-  area(),
-  pos(0,1036)
-])
-const background2 = add([
-  sprite('background'),
-  scale(2),
-  area(),
-  pos(0,480)
-])
-const background3 = add([
-  sprite('background'),
-  scale(2),
-  area(),
-  pos(0,0)
-])
-// Insert closeup-noninteractive sprites here:
+// Insert noninteractive sprites here:
 const rock0 = add([
   sprite('rockS'),
   scale(7),
   area(),
-  pos(1175,1545),
-])
+  pos(210,1544)])
 // tile mapping logic
 const map = addLevel([
   ' 4                                                           4 ',
@@ -102,22 +84,22 @@ const map = addLevel([
   ' 4                                                           4 ',
   ' 4                                                           4 ',
   ' 4                                                           4 ',
+  ' 000000000000000000000000000000000000000000000000000         4 ',
+  ' 4                               4                        0000 ',
+  ' 4                               4                           4 ',
+  ' 4                               4                    0      4 ',
+  ' 4                               4                           4 ',
+  ' 4                               4                        0000 ',
+  ' 4                               4                           4 ',
+  ' 4                               4                    0      4 ',
+  ' 4                               4                           4 ',
+  ' 4                               4                        0000 ',
+  ' 4                               4                           4 ',
+  ' 4                               4                    0      4 ',
   ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 40000                                                       4 ',
-  ' 4                          000            000               4 ',
-  ' 4      000000                                               4 ',
-  ' 4                 00000           0000                      4 ',
-  ' 4                                                           4 ',
-  ' 4             00                                            4 ',
-  ' 4                                                           4 ',
-  ' 4        00                                                 4 ',
-  ' 4                                                         004 ',
-  ' 4                                                           4 ',
-  ' 3    3    3    3    3    3    3    3    3    3    3    3    3 '],{
+  ' 4         000                   1      000000            0000 ',
+  ' 4                  000                                      4 ',
+  ' 000000                     00000000               00000000000 '],{
 tileWidth: 16,
 tileHeight: 16,
 tiles: {
@@ -137,7 +119,13 @@ tiles: {
     rect(16, 16),
     opacity(0),
     area(),
-    body({isStatic: true})]}})
+    body({isStatic: true})],
+  1: () => [
+    sprite('train_dummy'),
+    scale(1.4),
+    area(),
+    body({isStatic: true})
+  ]}})
 
 map.use(scale(4))
 // player logic
@@ -145,15 +133,16 @@ const player = add([
   sprite('idle-sprite'),
   area({shape: new Rect(vec2(0), 26, 32), offset: vec2(38,32)}),
   body(),
-    pos(300,1140),
+    pos(25,1140),
     scale(2.69),
-  state('idle',['idle','atk','def','jump','fall','run',], {
-    'idle': ['atk','run','jump','def','idle','fall'],
-    'atk': ['idle','run','def','jump','atk','fall'],
-    'def': ['idle','atk','jump','def','run','fall'],
-    'jump': ['idle','fall','run','jump','atk','def'],
-    'fall': ['idle','run','fall','jump','def','atk'],
-    'run': ['idle','jump','run','fall','atk','def']}),
+  state('idle',['idle','atk','def','jump','fall','run','crouch'], {
+    'idle': ['atk','run','jump','def','idle','fall','crouch'],
+    'atk': ['idle','run','def','jump','atk','fall','crouch'],
+    'def': ['idle','atk','jump','def','run','fall','crouch'],
+    'jump': ['idle','fall','run','jump','atk','def','crouch'],
+    'fall': ['idle','run','fall','jump','def','atk','crouch'],
+    'run': ['idle','jump','run','fall','atk','def','crouch'],
+    'crouch':['idle','jump','crouch','run','atk','def']}),
     {speed: 380,
      previousHeight: null,
      heightData: 0,
@@ -173,14 +162,18 @@ onKeyDown('.', () => {
 onKeyRelease('.', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
-  player.play('idle-anim')
-})
+  player.play('idle-anim')})
+
 onKeyDown(',',() => {
   if (player.curAnim() !== 'block-anim' && player.isGrounded()) {
     player.use(sprite('block-sprite'))
     player.enterState('def')
     player.play('block-anim')}})
-
+onKeyRelease(',', () => {
+  player.use(sprite('idle-sprite'))
+  player.enterState('idle')
+  player.play('idle-anim')})
+    
 onKeyDown('d', () => {
   if (player.curAnim() !== 'run-anim' && player.isGrounded()) {
       player.use(sprite('run-sprite'))
@@ -189,22 +182,21 @@ onKeyDown('d', () => {
   if (player.direction !== 'right') player.direction = 'right'
   player.move(player.speed, 0)})
 
-onKeyRelease('d', () => {
-  player.use(sprite('idle-sprite'))
-  player.enterState('idle')
-  player.play('idle-anim')})
-
 onKeyDown('a', () => {
   if (player.curAnim() !== 'run-anim' && player.isGrounded()) {
-    player.use(sprite('run-sprite'))
-    player.enterState('run')
-    player.play('run-anim')}
+      player.use(sprite('run-sprite'))
+      player.enterState('run')
+      player.play('run-anim')}
   if (player.direction !== 'left') player.direction = 'left'
-    player.move(-player.speed, 0)})
+  player.move(-player.speed, 0)})
+
+onKeyRelease('d', () => {
+if (player.isGrounded())
+  player.enterState('idle')})
 
 onKeyRelease('a', () => {
-  player.use(sprite('idle-sprite'))
-  player.enterState('idle') })
+if (player.isGrounded())
+  player.enterState('idle')})
 
 player.onStateEnter('idle', () => {
   player.use(sprite('idle-sprite'))
@@ -244,12 +236,17 @@ onUpdate(() => {
       else {
       player.flipX = false}})
 
-player.onStateUpdate('idle', () => {
-  if (isKeyDown('space')) {
+player.onStateUpdate('idle', () => { 
+  if (isKeyDown('space'))
+  if (player.isGrounded()) {
     player.use(sprite('jump-sprite'))
     player.enterState('jump')
     player.play('jump-anim')
-    player.jump(420 * 1.5)}})
+    player.jump(420 * 1.25)}
+  if (isKeyDown('s')) {
+    player.use(sprite('crouch-sprite'))
+    player.enterState('crouch')
+    player.play('crouch-anim')}})
 player.onStateUpdate('jump', () => {
   if (player.isFalling()) {
     player.enterState('fall')}})
@@ -260,4 +257,9 @@ player.onStateUpdate('run', () => {
   if (isKeyDown('space')) {
     player.enterState('jump')
     player.play('jump-anim')
-    player.jump(420 * 1.5)}})
+    player.jump(420 * 1.25)}})
+
+onKeyRelease('s', () => {
+  player.use(sprite('idle-sprite'))
+  player.enterState('idle')
+  player.play('idle-anim')})    
