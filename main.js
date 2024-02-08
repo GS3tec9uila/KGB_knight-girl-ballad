@@ -4,7 +4,8 @@ kaboom({
   scale: 1.75,
   background: [255, 255, 0,]})
   // insert assets
-loadSprite('train_dummy', 'assets/dummies/xtrain.png')
+loadSprite('1dummy', 'assets/dummies/xtrain.png')
+loadSprite('1dummy-right', 'assets/dummies/xRtrain.png')
 loadSprite('idle-sprite', 'assets/player/idle.png', {
   sliceX: 4,
   sliceY: 1,
@@ -72,6 +73,21 @@ const rock0 = add([
   scale(7),
   area(),
   pos(210,1544)])
+// Insert interactive sprites here:
+const dummy0 = add([
+  sprite('1dummy'),
+  scale(6),
+  area(),
+  body(),
+  pos(2100,1000),
+  'enemy'])
+  const dummy1 = add([
+    sprite('1dummy-right'),
+    scale(6),
+    area(),
+    body(),
+    pos(3000,0),
+    'enemy'])
 // tile mapping logic
 const map = addLevel([
   ' 4                                                           4 ',
@@ -96,7 +112,7 @@ const map = addLevel([
   ' 4                               4                        0000 ',
   ' 4                               4                           4 ',
   ' 4                               4                    0      4 ',
-  ' 4                                1                          4 ',
+  ' 4                                                           4 ',
   ' 4         000                          000000            0000 ',
   ' 4                  000                                      4 ',
   ' 000000                     00000000               00000000000 '],{
@@ -119,13 +135,7 @@ tiles: {
     rect(16, 16),
     opacity(0),
     area(),
-    body({isStatic: true})],
-  1: () => [
-    sprite('train_dummy'),
-    scale(1.5),
-    area(),
-    body({isStatic: true})
-  ]}})
+    body({isStatic: true})],}})
 
 map.use(scale(4))
 // player logic
@@ -147,6 +157,7 @@ const player = add([
      previousHeight: null,
      heightData: 0,
      direction: 'right'}])
+// enemy logic
 // game logic
 player.onStateEnter('idle', () => {
 player.use(sprite('idle-sprite'))
@@ -157,7 +168,10 @@ onKeyDown('.', () => {
   if (player.curAnim() !== 'atk-anim' && player.isGrounded()) {
     player.use(sprite('atk-sprite'))
     player.enterState('atk')
-    player.play('atk-anim')}})
+    player.play('atk-anim')
+    player.onCollide('training_dummy', (enemy) => {
+      destroy(enemy)
+    })}})
 
 onKeyRelease('.', () => {
   player.use(sprite('idle-sprite'))
@@ -259,8 +273,12 @@ player.onStateUpdate('run', () => {
     player.enterState('jump')
     player.play('jump-anim')
     player.jump(420 * 1.25)}})
-
+player.onStateUpdate('atk', () => {
+  if (isKeyDown('.')) {
+    get('enemy').forEach(enemy => {
+      if (player.isColliding(enemy)) {
+        destroy('enemy')}})}})
 onKeyRelease('s', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
-  player.play('idle-anim')})    
+  player.play('idle-anim')})
