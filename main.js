@@ -2,12 +2,14 @@ kaboom({
   width: 640,
   height: 420,
   scale: 1.75,
-  background: [255, 255, 0,]})
+})
   // insert assets
 loadSprite('1dummy', 'assets/dummies/xtrain.png')
 loadSprite('1dummy-right', 'assets/dummies/xRtrain.png')
 loadSprite('1dummy-iced', 'assets/dummies/xItrain.png')
 loadSprite('sign0', 'assets/misc/sign0.png')
+loadSprite('right', 'assets/buttons/right.png')
+loadSprite('left', 'assets/buttons/left.png')
 loadSprite('idle-sprite', 'assets/player/idle.png', {
   sliceX: 4,
   sliceY: 1,
@@ -74,15 +76,29 @@ const sign0 = add([
   sprite('sign0'),
   scale(6),
   area(),
-  pos(785,1380)
+  pos(785,1375)
 ])
+const left = add ([
+  sprite('right'),
+  scale(1.25),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(114,260)])
+const right = add ([
+  sprite('left'),
+  scale(1.25),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(28,260)])
 // Insert interactives W/ BODY PROPERTY
 const dummy0 = add([
   sprite('1dummy-iced'),
   scale(6),
   area(),
   body(),
-  pos(302,1050),
+  pos(302,1045),
   'enemy'])
   const dummy1 = add([
     sprite('1dummy-right'),
