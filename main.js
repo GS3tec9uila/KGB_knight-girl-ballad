@@ -109,6 +109,11 @@ const pushSign = add([
   scale(3),
   area(),
   pos(420 - 50,1450)])
+const pushSign0 = add([
+  sprite('sign0'),
+  scale(3),
+  area(),
+  pos(2120,1350)])
 // tile mapping logic
 const map = addLevel([
   ' 5                                                           5 ',
@@ -199,85 +204,15 @@ const ATKdummy = add([
   body({isStatic: true}),
   pos(3000,450),
   'enemy'])
-// touch control logic
-// dpad
-const rgtbtn = add ([
-  sprite('right'),
-  scale(.9),
-  opacity(.55),
-  fixed(),
-  area(),
-  pos(130,360)])
-const lftbtn = add ([
-  sprite('left'),
-  scale(.9),
-  opacity(.55),
-  fixed(),
-  area(),
-  pos(10,360)])
-const upbtn = add([
-  sprite('up'),
-  scale(.9),
-  opacity(.55),
-  fixed(),
-  area(),
-  pos(70,304)])
-const dwnbtn = add([
-  sprite('down'),
-  scale(.9),
-  opacity(.55),
-  fixed(),
-  area(),
-  pos(70,360)])
-// start & select
-const selbtn = add([
-  sprite('select'),
-  scale(1),
-  opacity(.5),
-  fixed(),
-  area(),
-  pos(306,380)])
-const srtbtn = add([
-  sprite('start'),
-  scale(1),
-  opacity(.5),
-  fixed(),
-  area(),
-  pos(240,380)])
-// Xbox buttons (A, B, X, Y)
-const Abtn = add([
-  sprite('xboxA'),
-  scale(3),
-  opacity(.75),
-  fixed(),
-  area(),
-  pos(510,364)])
-const Bbtn = add([
-  sprite('xboxB'),
-  scale(3),
-  opacity(.75),
-  fixed(),
-  area(),
-  pos(550,324)])
-const Xbtn = add([
-  sprite('xboxX'),
-  scale(3),
-  opacity(.75),
-  fixed(),
-  area(),
-  pos(470,324)])
-const Ybtn = add([
-  sprite('xboxY'),
-  scale(3),
-  opacity(.75),
-  fixed(),
-  area(),
-  pos(510,284)])
 // game logic (starting state)
 player.onStateEnter('idle', () => {
 player.use(sprite('idle-sprite'))
 player.play('idle-anim')
 wait(time, () => player.enterState())})
+// keyDown for touch controls
+const keyDown = {
+  left: false,
+  right: false}
 // move right & move left
 /* (onKeyDown) to retain in-air directional controls) */  
 onKeyDown('d', () => {
@@ -397,3 +332,92 @@ onKeyRelease('q', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
   player.play('idle-anim')})
+// touch control logic
+// dpad
+const rgtbtn = add ([
+  sprite('right'),
+  scale(.9),
+  opacity(.55),
+  fixed(),
+  area(),
+  pos(130,360)])
+const lftbtn = add ([
+  sprite('left'),
+  scale(.9),
+  opacity(.55),
+  fixed(),
+  area(),
+  pos(10,360)])
+const upbtn = add([
+  sprite('up'),
+  scale(.9),
+  opacity(.55),
+  fixed(),
+  area(),
+  pos(70,304)])
+const dwnbtn = add([
+  sprite('down'),
+  scale(.9),
+  opacity(.55),
+  fixed(),
+  area(),
+  pos(70,360)])
+// start & select
+const selbtn = add([
+  sprite('select'),
+  scale(1),
+  opacity(.5),
+  fixed(),
+  area(),
+  pos(306,380)])
+const srtbtn = add([
+  sprite('start'),
+  scale(1),
+  opacity(.5),
+  fixed(),
+  area(),
+  pos(240,380)])
+// Xbox buttons (A, B, X, Y)
+const Abtn = add([
+  sprite('xboxA'),
+  scale(3),
+  opacity(.75),
+  fixed(),
+  area(),
+  pos(510,364)])
+const Bbtn = add([
+  sprite('xboxB'),
+  scale(3),
+  opacity(.75),
+  fixed(),
+  area(),
+  pos(550,324)])
+const Xbtn = add([
+  sprite('xboxX'),
+  scale(3),
+  opacity(.75),
+  fixed(),
+  area(),
+  pos(470,324)])
+const Ybtn = add([
+  sprite('xboxY'),
+  scale(3),
+  opacity(.75),
+  fixed(),
+  area(),
+  pos(510,284)])
+// touch controls (onTouchStart functions)
+onTouchStart((id, pos) => {
+  if (rgtbtn.hasPoint(pos)) {
+keyDown.right = true
+rgtbtn.opacity = 1}
+else if (lftbtn.hasPoint(pos)) {
+  keyDown.left = true
+  lftbtn.opacity = 1}
+else if (upbtn.hasPoint(pos)) {
+  keyDown.up = true
+  upbtn.opacity = 1}
+else if (dwnbtn.hasPoint(pos)) {
+  keyDown.down = true
+  dwnbtw.opacity = 1
+}})
