@@ -104,6 +104,11 @@ loadSpriteAtlas('assets/tiles/newTiles.png', {
       width: 96,
       height: 16,}})
 setGravity(1000)
+const pushSign = add([
+  sprite('sign0'),
+  scale(3),
+  area(),
+  pos(420 - 50,1450)])
 // tile mapping logic
 const map = addLevel([
   ' 5                                                           5 ',
@@ -199,28 +204,28 @@ const ATKdummy = add([
 const rgtbtn = add ([
   sprite('right'),
   scale(.9),
-  opacity(100),
+  opacity(.55),
   fixed(),
   area(),
   pos(130,360)])
 const lftbtn = add ([
   sprite('left'),
   scale(.9),
-  opacity(100),
+  opacity(.55),
   fixed(),
   area(),
   pos(10,360)])
 const upbtn = add([
   sprite('up'),
   scale(.9),
-  opacity(100),
+  opacity(.55),
   fixed(),
   area(),
   pos(70,304)])
 const dwnbtn = add([
   sprite('down'),
   scale(.9),
-  opacity(100),
+  opacity(.55),
   fixed(),
   area(),
   pos(70,360)])
@@ -228,14 +233,14 @@ const dwnbtn = add([
 const selbtn = add([
   sprite('select'),
   scale(1),
-  opacity(100),
+  opacity(.5),
   fixed(),
   area(),
   pos(306,380)])
 const srtbtn = add([
   sprite('start'),
   scale(1),
-  opacity(100),
+  opacity(.5),
   fixed(),
   area(),
   pos(240,380)])
@@ -243,31 +248,31 @@ const srtbtn = add([
 const Abtn = add([
   sprite('xboxA'),
   scale(3),
-  opacity(100),
+  opacity(.75),
   fixed(),
   area(),
-  pos(500,354)])
+  pos(510,364)])
 const Bbtn = add([
   sprite('xboxB'),
   scale(3),
-  opacity(100),
+  opacity(.75),
   fixed(),
   area(),
-  pos(540,314)])
+  pos(550,324)])
 const Xbtn = add([
   sprite('xboxX'),
   scale(3),
-  opacity(100),
+  opacity(.75),
   fixed(),
   area(),
-  pos(460,314)])
+  pos(470,324)])
 const Ybtn = add([
   sprite('xboxY'),
   scale(3),
-  opacity(100),
+  opacity(.75),
   fixed(),
   area(),
-  pos(500,274)])
+  pos(510,284)])
 // game logic (starting state)
 player.onStateEnter('idle', () => {
 player.use(sprite('idle-sprite'))
