@@ -33,6 +33,8 @@ loadSprite('1dummy', 'assets/dummies/xtrain.png')
 loadSprite('1dummy-right', 'assets/dummies/xRtrain.png')
 loadSprite('1dummy-iced', 'assets/dummies/xItrain.png')
 loadSprite('sign0', 'assets/misc/sign0.png')
+loadSprite('sign1', 'assets/misc/sign1.png')
+loadSprite('sign2', 'assets/misc/sign2.png')
 loadSprite('right', 'assets/buttons/right.png')
 loadSprite('left', 'assets/buttons/left.png')
 loadSprite('up', 'assets/buttons/up.png')
@@ -43,6 +45,7 @@ loadSprite('xboxA', 'assets/buttons/A.png')
 loadSprite('xboxB', 'assets/buttons/B.png')
 loadSprite('xboxX', 'assets/buttons/X.png')
 loadSprite('xboxY', 'assets/buttons/Y.png')
+loadSprite('plank', 'assets/misc/planks.png')
 loadSprite('idle-sprite', 'assets/player/idle.png', {
   sliceX: 4,
   sliceY: 1,
@@ -104,44 +107,54 @@ loadSpriteAtlas('assets/tiles/newTiles.png', {
       width: 96,
       height: 16,}})
 setGravity(1000)
-const pushSign = add([
+const PUSH0 = add([
   sprite('sign0'),
   scale(3),
   area(),
-  pos(420 - 50,1450)])
-const pushSign0 = add([
+  pos(420,1450)])
+const PUSH1 = add([
   sprite('sign0'),
   scale(3),
   area(),
-  pos(2120,1350)])
+  pos(1810,1350)])
+const OR0 = add([
+  sprite('sign1'),
+  scale(3),
+  area(),
+  pos(2006,1351)])
+const KILL0 = add([
+  sprite('sign2'),
+  scale(3),
+  area(),
+  pos(2100,1350)])
 // tile mapping logic
 const map = addLevel([
-  ' 5                                                           5 ',
-  ' 5                                                           5 ',
-  ' 5                                                           5 ',
-  ' 5                                                           5 ',
-  ' 5                                                           5 ',
-  ' 5                                                           5 ',
-  ' 5                                                           5 ',
-  ' 5                                                           5 ',
-  ' 5                                                           5 ',
-  ' 5                                                           5 ',
-  ' 000000000000000000000000000000000000000000000000000         5 ',
-  ' 5                                                        0000 ',
-  ' 5                                                           5 ',
-  ' 5                                                    0      5 ',
-  ' 5                                                           5 ',
-  ' 5                                                        0000 ',
-  ' 5                                                           5 ',
-  ' 5                                                    0      5 ',
-  ' 5                                                           5 ',
-  ' 5                                                        0000 ',
-  ' 5                                                           5 ',
-  ' 5                                                    0      5 ',
-  ' 5                                                           5 ',
-  ' 5          00                          000000            0000 ',
-  ' 5                  000                                      5 ',
-  ' 0000000                    00000000               00000000000 '],{
+  ' 5                                                            5 ',
+  ' 5                                                            5 ',
+  ' 5                                                            5 ',
+  ' 5                                                            5 ',
+  ' 5                                                            5 ',
+  ' 5                                                            5 ',
+  ' 5                                                            5 ',
+  ' 5                                                            5 ',
+  ' 5                                                            5 ',
+  ' 000000000000000000000000000000000000000000000000000000       5 ',
+  '                                                              5 ',
+  ' 5                                                         0000 ',
+  ' 5                                                            5 ',
+  ' 5                                                     0      5 ',
+  ' 5                                                            5 ',
+  ' 5                                                         0000 ',
+  ' 5                                                            5 ',
+  ' 5                                                     0      5 ',
+  ' 5                                                            5 ',
+  ' 5                                                         0000 ',
+  ' 5                                                            5 ',
+  ' 5                                                     0      5 ',
+  ' 5                                                            5 ',
+  ' 5                                      000000             0000 ',
+  ' 5                  000                                       5 ',
+  ' 0000000                    00000000                00000000000 '],{
 tileWidth: 16,
 tileHeight: 16,
 tiles: {
@@ -163,6 +176,21 @@ tiles: {
     area(),
     body({isStatic: true})],}})
 map.use(scale(4))
+// enemy logic
+const PUSHdummy = add([
+  sprite('1dummy-iced'),
+  scale(6),
+  area(),
+  body(),
+  pos(2080,713),
+  'enemy'])
+const ATKdummy = add([
+  sprite('1dummy-right'),
+  scale(6),
+  area(),
+  body({isStatic: true}),
+  pos(3000,388),
+  'enemy'])
 // player logic
 const player = add([
   sprite('idle-sprite'),
@@ -183,27 +211,12 @@ const player = add([
      heightData: 0,
      direction: 'right'}])
 // interactive object logic
-const pushrock0 = add([
-  sprite('rockS'),
+const pushPlanks = add([
+  sprite('plank'),
   scale(6.9),
   area(),
   body(),
-  pos(410,710)])
-// enemy logic
-const PUSHdummy = add([
-  sprite('1dummy-iced'),
-  scale(6),
-  area(),
-  body(),
-  pos(2080,713),
-  'enemy'])
-const ATKdummy = add([
-  sprite('1dummy-right'),
-  scale(6),
-  area(),
-  body({isStatic: true}),
-  pos(3000,450),
-  'enemy'])
+  pos(280,710)])
 // game logic (starting state)
 player.onStateEnter('idle', () => {
 player.use(sprite('idle-sprite'))
@@ -340,106 +353,3 @@ onKeyRelease('q', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
   player.play('idle-anim')})
-// touch control logic
-// dpad
-const rgtbtn = add ([
-  sprite('right'),
-  scale(.9),
-  opacity(.55),
-  fixed(),
-  area(),
-  pos(130,360)])
-const lftbtn = add ([
-  sprite('left'),
-  scale(.9),
-  opacity(.55),
-  fixed(),
-  area(),
-  pos(10,360)])
-const upbtn = add([
-  sprite('up'),
-  scale(.9),
-  opacity(.55),
-  fixed(),
-  area(),
-  pos(70,304)])
-const dwnbtn = add([
-  sprite('down'),
-  scale(.9),
-  opacity(.55),
-  fixed(),
-  area(),
-  pos(70,360)])
-// start & select
-const selbtn = add([
-  sprite('select'),
-  scale(1),
-  opacity(.5),
-  fixed(),
-  area(),
-  pos(306,380)])
-const srtbtn = add([
-  sprite('start'),
-  scale(1),
-  opacity(.5),
-  fixed(),
-  area(),
-  pos(240,380)])
-// Xbox buttons (A, B, X, Y)
-const Abtn = add([
-  sprite('xboxA'),
-  scale(3),
-  opacity(.75),
-  fixed(),
-  area(),
-  pos(510,364)])
-const Bbtn = add([
-  sprite('xboxB'),
-  scale(3),
-  opacity(.75),
-  fixed(),
-  area(),
-  pos(550,324)])
-const Xbtn = add([
-  sprite('xboxX'),
-  scale(3),
-  opacity(.75),
-  fixed(),
-  area(),
-  pos(470,324)])
-const Ybtn = add([
-  sprite('xboxY'),
-  scale(3),
-  pos(510,284),
-  opacity(.75),
-  fixed(),
-  area()])
-// touch controls (onTouchStart function)
-onTouchStart((id, pos) => {
-  if (rgtbtn.hasPoint(pos)) {
-keyDown.right = true
-rgtbtn.opacity = 1}
-else if (lftbtn.hasPoint(pos)) {
-  keyDown.left = true
-  lftbtn.opacity = 1}
-else if (upbtn.hasPoint(pos)) {
-  keyDown.up = true
-  upbtn.opacity = 1}
-else if (dwnbtn.hasPoint(pos)) {
-  keyDown.down = true
-  dwnbtw.opacity = 1}})
-// touch controls (onTouchEnd function)
-onTouchEnd((_, pos) => {
-  if (!rgtbtn.hasPoint(pos)) {
-    keyDown.right = false
-    rgtbtn.opacity = 0.5}
-  if (!lftbtn.hasPoint(pos)) {
-    keyDown.right = false
-    lftbtn.opacity = 0.5}
-  if (!upbtn.hasPoint(pos)) {
-    keyDown.right = false
-    upbtn.opacity = 0.5}
-  if (!dwnbtn.hasPoint(pos)) {
-    keyDown.right = false
-    dwnbtn.opacity = 0.5}
-})
