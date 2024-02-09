@@ -1,3 +1,28 @@
+/*
+Knight Girl's Ballad -> alpha_7.3.1
+(copyright 2024)
+
+KlettGameStudios
+(copyright 2023 - 2024)
+Travis "tec9uila" Klett
+
+Development began;
+January 26th, 2024
+
+1st Beta Published;
+February 14th, 2024 -> Distributed to Early Supporters & Playtesters
+February 15th, 2024 -> Personal Storefront
+kbm controls:
+Q = BLOCK
+R = ATTACK
+E = INVENTORY
+F = INTERACT
+W = JUMP
+A = MOVE LEFT
+S = CROUCH
+D = MOVE RIGHT
+*/
+
 kaboom({
   width: 640,
   height: 420,
@@ -10,6 +35,14 @@ loadSprite('1dummy-iced', 'assets/dummies/xItrain.png')
 loadSprite('sign0', 'assets/misc/sign0.png')
 loadSprite('right', 'assets/buttons/right.png')
 loadSprite('left', 'assets/buttons/left.png')
+loadSprite('up', 'assets/buttons/up.png')
+loadSprite('down', 'assets/buttons/down.png')
+loadSprite('start', 'assets/buttons/start.png')
+loadSprite('select', 'assets/buttons/select.png')
+loadSprite('xboxA', 'assets/buttons/A.png')
+loadSprite('xboxB', 'assets/buttons/B.png')
+loadSprite('xboxX', 'assets/buttons/X.png')
+loadSprite('xboxY', 'assets/buttons/Y.png')
 loadSprite('idle-sprite', 'assets/player/idle.png', {
   sliceX: 4,
   sliceY: 1,
@@ -71,76 +104,33 @@ loadSpriteAtlas('assets/tiles/newTiles.png', {
       width: 96,
       height: 16,}})
 setGravity(1000)
-// Insert non-interactives NO BODY PROPERTY
-const sign0 = add([
-  sprite('sign0'),
-  scale(6),
-  area(),
-  pos(785,1375)
-])
-const left = add ([
-  sprite('right'),
-  scale(1.25),
-  opacity(100),
-  fixed(),
-  area(),
-  pos(114,260)])
-const right = add ([
-  sprite('left'),
-  scale(1.25),
-  opacity(100),
-  fixed(),
-  area(),
-  pos(28,260)])
-// Insert interactives W/ BODY PROPERTY
-const dummy0 = add([
-  sprite('1dummy-iced'),
-  scale(6),
-  area(),
-  body(),
-  pos(302,1045),
-  'enemy'])
-  const dummy1 = add([
-    sprite('1dummy-right'),
-    scale(6),
-    area(),
-    body({isStatic: true}),
-    pos(3500,450),
-    'enemy'])
-    const dummy2 = add([
-      sprite('1dummy'),
-      scale(6),
-      area(),
-      body({isStatic: true}),
-      pos(2120,1410),
-      'enemy'])
 // tile mapping logic
 const map = addLevel([
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 4                                                           4 ',
-  ' 000000000000000000000000000000000000000000000000000         4 ',
-  ' 4                               4                        0000 ',
-  ' 4                               4                           4 ',
-  ' 4                               4                    0      4 ',
-  ' 4                               4                           4 ',
-  ' 4                               4                        0000 ',
-  ' 4                               4                           4 ',
-  ' 4                               4                    0      4 ',
-  ' 4                               4                           4 ',
-  ' 4                               4                        0000 ',
-  ' 4                               4                           4 ',
-  ' 4                               4                    0      4 ',
-  ' 4                                                           4 ',
-  ' 4          00                          000000            0000 ',
-  ' 4                  000                                      4 ',
+  ' 5                                                           5 ',
+  ' 5                                                           5 ',
+  ' 5                                                           5 ',
+  ' 5                                                           5 ',
+  ' 5                                                           5 ',
+  ' 5                                                           5 ',
+  ' 5                                                           5 ',
+  ' 5                                                           5 ',
+  ' 5                                                           5 ',
+  ' 5                                                           5 ',
+  ' 000000000000000000000000000000000000000000000000000         5 ',
+  ' 5                                                        0000 ',
+  ' 5                                                           5 ',
+  ' 5                                                    0      5 ',
+  ' 5                                                           5 ',
+  ' 5                                                        0000 ',
+  ' 5                                                           5 ',
+  ' 5                                                    0      5 ',
+  ' 5                                                           5 ',
+  ' 5                                                        0000 ',
+  ' 5                                                           5 ',
+  ' 5                                                    0      5 ',
+  ' 5                                                           5 ',
+  ' 5          00                          000000            0000 ',
+  ' 5                  000                                      5 ',
   ' 0000000                    00000000               00000000000 '],{
 tileWidth: 16,
 tileHeight: 16,
@@ -168,8 +158,8 @@ const player = add([
   sprite('idle-sprite'),
   area({shape: new Rect(vec2(0), 26, 32), offset: vec2(38,32)}),
   body(),
-    pos(25,1050),
-    scale(2.69),
+  pos(30,600),
+  scale(2.69),
   state('idle',['idle','atk','def','jump','fall','run','crouch'], {
     'idle': ['atk','run','jump','def','idle','fall','crouch'],
     'atk': ['idle','run','def','jump','atk','fall','crouch'],
@@ -182,33 +172,109 @@ const player = add([
      previousHeight: null,
      heightData: 0,
      direction: 'right'}])
+// interactive object logic
+const pushrock0 = add([
+  sprite('rockS'),
+  scale(6.9),
+  area(),
+  body(),
+  pos(410,710)])
 // enemy logic
-// game logic
+const PUSHdummy = add([
+  sprite('1dummy-iced'),
+  scale(6),
+  area(),
+  body(),
+  pos(2080,713),
+  'enemy'])
+const ATKdummy = add([
+  sprite('1dummy-right'),
+  scale(6),
+  area(),
+  body({isStatic: true}),
+  pos(3000,450),
+  'enemy'])
+// touch control logic
+// dpad
+const rgtbtn = add ([
+  sprite('right'),
+  scale(.9),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(130,360)])
+const lftbtn = add ([
+  sprite('left'),
+  scale(.9),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(10,360)])
+const upbtn = add([
+  sprite('up'),
+  scale(.9),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(70,304)])
+const dwnbtn = add([
+  sprite('down'),
+  scale(.9),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(70,360)])
+// start & select
+const selbtn = add([
+  sprite('select'),
+  scale(1),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(306,380)])
+const srtbtn = add([
+  sprite('start'),
+  scale(1),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(240,380)])
+// Xbox buttons (A, B, X, Y)
+const Abtn = add([
+  sprite('xboxA'),
+  scale(3),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(500,354)])
+const Bbtn = add([
+  sprite('xboxB'),
+  scale(3),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(540,314)])
+const Xbtn = add([
+  sprite('xboxX'),
+  scale(3),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(460,314)])
+const Ybtn = add([
+  sprite('xboxY'),
+  scale(3),
+  opacity(100),
+  fixed(),
+  area(),
+  pos(500,274)])
+// game logic (starting state)
 player.onStateEnter('idle', () => {
 player.use(sprite('idle-sprite'))
 player.play('idle-anim')
 wait(time, () => player.enterState())})
-
-onKeyDown('.', () => {
-  if (player.curAnim() !== 'atk-anim' && player.isGrounded()) {
-    player.use(sprite('atk-sprite'))
-    player.enterState('atk')
-    player.play('atk-anim')
-    player.onCollide('training_dummy', (enemy) => {
-      destroy(enemy)
-    })}})
-
-onKeyDown(',',() => {
-  if (player.curAnim() !== 'block-anim' && player.isGrounded()) {
-    player.use(sprite('block-sprite'))
-    player.enterState('def')
-    player.play('block-anim')}})
-
-onKeyRelease(',', () => {
-  player.use(sprite('idle-sprite'))
-  player.enterState('idle')
-  player.play('idle-anim')})
-    
+// move right & move left
+/* (onKeyDown) to retain in-air directional controls) */  
 onKeyDown('d', () => {
   if (player.curAnim() !== 'run-anim' && player.isGrounded()) {
       player.use(sprite('run-sprite'))
@@ -216,7 +282,10 @@ onKeyDown('d', () => {
       player.play('run-anim')}
   if (player.direction !== 'right') player.direction = 'right'
   player.move(player.speed, 0)})
-
+onKeyRelease('d', () => {
+  if (player.isGrounded())
+    player.enterState('idle')})
+// move left
 onKeyDown('a', () => {
   if (player.curAnim() !== 'run-anim' && player.isGrounded()) {
       player.use(sprite('run-sprite'))
@@ -224,37 +293,42 @@ onKeyDown('a', () => {
       player.play('run-anim')}
   if (player.direction !== 'left') player.direction = 'left'
   player.move(-player.speed, 0)})
-
-onKeyRelease('d', () => {
-if (player.isGrounded())
-  player.enterState('idle')})
-
 onKeyRelease('a', () => {
-if (player.isGrounded())
-  player.enterState('idle')})
-
+  if (player.isGrounded())
+    player.enterState('idle')})
+// game logic (on enter player states)
+/* ADDING 'ATK' CRASHES GAME -> Fixed approx. 30s after writing this comment */
 player.onStateEnter('idle', () => {
   player.use(sprite('idle-sprite'))
   player.play('idle-anim')})
-
 player.onStateEnter('jump', () => {
   player.use(sprite('jump-sprite'))
   player.play('jump-anim')})
-
 player.onStateEnter('fall', () => {
   player.use(sprite('fall-sprite'))
   player.play('fall-anim')})
-
 player.onStateEnter('run', () => {
   player.use(sprite('run-sprite'))
   player.play('run-anim')})
-// game logic ()
+player.onStateEnter('def', () => {
+  player.use(sprite('block-sprite'))
+  player.play('block-anim')})
+player.onStateEnter('crouch', () => {
+  player.use(sprite('crouch-sprite'))
+  player.play('crouch-anim')})
+player.onStateEnter('atk', () => {
+  player.use(sprite('atk-sprite'))
+  player.play('atk-anim')})
+// camera scale -> set to half for desktop (0.5, 1/2)
 camScale(.5)
-// game logic (update functions)
+// game logic (onUpdate function) 
+/* flipping the player sprite depends on direction 
+player is facing (i.e. the player moves left, 
+so the players sprite flips left & visa-versa) */
 onUpdate(() => {
   const cameraLeftBound = 711
   const cameraRightBound = 3317
-  const cameraVerticalOffset = player.pos.y - 198
+  const cameraVerticalOffset = player.pos.y - -20
   if (cameraLeftBound > player.pos.x) {
     camPos(cameraLeftBound, cameraVerticalOffset)} 
     else if (cameraRightBound < player.pos.x) {
@@ -264,15 +338,17 @@ onUpdate(() => {
     if (player.curAnim() !== 'fall-anim' && !player.isGrounded() && player.heightDelta < 0) {
       player.use(sprite('fall-sprite'))
       player.enterState('fall')
-      player.play('fall-anim')
-    }
+      player.play('fall-anim')}
   if (player.direction === 'left') {
       player.flipX = true}
       else {
       player.flipX = false}})
-
+// game logic (onStateUpdate functions)
+/* for controls & interacting with
+the players surrounding envirmonment
+(i.e. resources, enemies, etc.) */
 player.onStateUpdate('idle', () => { 
-  if (isKeyDown('space'))
+  if (isKeyDown('w'))
   if (player.isGrounded()) {
     player.use(sprite('jump-sprite'))
     player.enterState('jump')
@@ -281,7 +357,15 @@ player.onStateUpdate('idle', () => {
   if (isKeyDown('s')) {
     player.use(sprite('crouch-sprite'))
     player.enterState('crouch')
-    player.play('crouch-anim')}})
+    player.play('crouch-anim')}
+  if (isKeyDown('q')) {
+    player.use(sprite('block-sprite'))
+    player.enterState('def')
+    player.play('block-anim')}
+  if (isKeyDown('r')) {
+    player.use(sprite('atk-sprite'))
+    player.enterState('atk')
+    player.play('atk-anim')}})
 player.onStateUpdate('jump', () => {
   if (player.isFalling()) {
     player.enterState('fall')}})
@@ -289,20 +373,22 @@ player.onStateUpdate('fall', () => {
   if (player.isGrounded()) {
     player.enterState('idle')}})
 player.onStateUpdate('run', () => {
-  if (isKeyDown('space')) {
+  if (isKeyDown('w')) {
     player.enterState('jump')
     player.play('jump-anim')
     player.jump(420 * 1.25)}})
-player.onStateUpdate('atk', () => {
-  if (isKeyDown('.')) {
-    get('enemy').forEach(enemy => {
-     if (player.isColliding(enemy))
-        destroy('enemy')})}})
+// game logic (onKeyRelease functions)
+/* add functions here to make the control
+a press-and-hold as apposed to a toggle */
 onKeyRelease('s', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
   player.play('idle-anim')})
-onKeyRelease('.', () => {
+onKeyRelease('r', () => {
+  player.use(sprite('idle-sprite'))
+  player.enterState('idle')
+  player.play('idle-anim')})
+onKeyRelease('q', () => {
   player.use(sprite('idle-sprite'))
   player.enterState('idle')
   player.play('idle-anim')})
