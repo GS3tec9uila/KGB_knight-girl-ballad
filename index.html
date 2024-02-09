@@ -28,15 +28,45 @@
         <!-- Chrome for Android -->
         <link rel="manifest" href="assets/favicon/manifest.json">
         <link rel="icon" sizes="192x192" href="assets/favicon/favicon-192.png">
-        <title>"KGB" alpha_0.7.3</title>
+        <title>"KGB" alpha_0.7.4</title>
+        <link rel="stylesheet" href="styles.css">
         <style>
             body {
-                background-color: rgb(0, 0, 0);
-                text-align: center;}
+                text-align: center;
+                background-color: rebeccapurple;}
         </style>
     </head>
     <body>
+        <br>
         <script src=kaboom.js></script>
         <script defer src="main.js"></script>
+        <br><br>
+        <div class="keys">
+              <button style="color: rgb(255, 255, 0); font-size: large;" class="up arr" 
+              onmousedown="
+              if (player.isGrounded()) {
+              player.enterState('jump');
+              player.play('jump-anim');
+              play('iJumpF')
+              player.jump(420 * 1.25)};">
+                <i class="chevron up"></i></button>
+                      <div class="keys">
+                <button style="margin-right:21px; color:limegreen; font-size: large;" class="left arr" 
+                onmousedown="" 
+                  onmouseup="">
+                    <i class="chevron left"></i></button>
+                  <button style="color: rgb(255, 111, 255); font-size: large;" class="right arr" 
+                  onmousedown="
+                if (player.curAnim() !== 'run-anim' && player.isGrounded()) {
+                  player.use(sprite('run-sprite'))
+                  player.enterState('run')
+                  player.play('run-anim')}
+                if (player.direction !== 'right') player.direction = 'right'
+                  player.move(player.speed, 0)" 
+                  onmouseup="
+                  if (player.isGrounded())
+                    player.enterState('idle')">
+                    <i class="chevron right"></i></button>
+          </div></div>
     </body>
 </html>

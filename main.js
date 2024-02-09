@@ -11,7 +11,7 @@ January 26th, 2024
 
 1st Beta Published;
 February 14th, 2024 -> Distributed to Early Supporters & Playtesters
-February 15th, 2024 -> Personal Storefront
+February 16th, 2024 -> Personal Storefront
 kbm controls:
 Q = BLOCK
 R = ATTACK
@@ -22,13 +22,14 @@ A = MOVE LEFT
 S = CROUCH
 D = MOVE RIGHT
 */
-
 kaboom({
   width: 640,
   height: 420,
   scale: 1.75,
-})
-  // insert assets
+  background: [ 151, 188, 255 ]})
+// PLACEMENT OF GAME_CANVAS ON HTML
+document.body.insertBefore(this.canvas, document.body.childNodes[4])
+// insert sprites
 loadSprite('1dummy', 'assets/dummies/xtrain.png')
 loadSprite('1dummy-right', 'assets/dummies/xRtrain.png')
 loadSprite('1dummy-iced', 'assets/dummies/xItrain.png')
@@ -46,6 +47,29 @@ loadSprite('xboxB', 'assets/buttons/B.png')
 loadSprite('xboxX', 'assets/buttons/X.png')
 loadSprite('xboxY', 'assets/buttons/Y.png')
 loadSprite('plank', 'assets/misc/planks.png')
+// insert singular tiles
+loadSprite('cobble', 'assets/tiles/cobblestone.png')
+loadSprite('cobble2', 'assets/tiles/cobblestone2.png')
+loadSprite('cobble3', 'assets/tiles/cobblestone3.png')
+loadSprite('icecobble', 'assets/tiles/iceCobble.png')
+loadSprite('icecobble2', 'assets/tiles/iceCobble2.png')
+loadSprite('icecobble3', 'assets/tiles/iceCobble3.png')
+loadSprite('iceBRICK', 'assets/tiles/iceBricks.png')
+loadSprite('greyBRICK', 'assets/tiles/greyBricks.png')
+loadSprite('fireBRICK', 'assets/tiles/fireBricks.png')
+// insert sounds, tones, & music
+loadSound('atkMISS', 'assets/sounds/iSlice.mp3')
+loadSound('iJumpF', 'assets/sounds/iJumpF.mp3')
+loadSound('iJumpS', 'assets/sounds/iJumpS.mp3')
+loadSound('lowBEEP', 'assets/sounds/iBEP.mp3')
+loadSound('highBEEP', 'assets/sounds/iBEEP.mp3')
+loadSound('potionBURP', 'assets/sounds/iBurp.mp3')
+loadSound('foodBURP', 'assets/sounds/iBelch.mp3')
+loadSound('rickFLAIR', 'assets/sounds/rickF.mp3')
+loadSound('iLand', 'assets/sounds/iLand.mp3')
+loadSound('sparklezWOW', 'assets/sounds/iWowww.mp3')
+loadSound('iRun', 'assets/sounds/iRun.mp3')
+// insert spritesheets & animations
 loadSprite('idle-sprite', 'assets/player/idle.png', {
   sliceX: 4,
   sliceY: 1,
@@ -100,81 +124,80 @@ loadSpriteAtlas('assets/tiles/newTiles.png', {
     y: 86,
     width: 14,
     height: 8,}})
-  loadSpriteAtlas('assets/tiles/groundTile.png', {
-    'grass0':{
-      x: 12,
-      y: 0,
-      width: 96,
-      height: 16,}})
 setGravity(1000)
-const PUSH0 = add([
+// signs go here
+const PUSHsign = add([
   sprite('sign0'),
   scale(3),
   area(),
   pos(420,1450)])
-const PUSH1 = add([
+const PUSHsign2 = add([
   sprite('sign0'),
   scale(3),
   area(),
-  pos(1810,1350)])
-const OR0 = add([
+  pos(1850,1350)])
+const ORsign = add([
   sprite('sign1'),
   scale(3),
   area(),
-  pos(2006,1351)])
-const KILL0 = add([
+  pos(2046,1351)])
+const KILLsign = add([
   sprite('sign2'),
   scale(3),
   area(),
-  pos(2100,1350)])
+  pos(2138,1350)])
 // tile mapping logic
 const map = addLevel([
-  ' 5                                                            5 ',
-  ' 5                                                            5 ',
-  ' 5                                                            5 ',
-  ' 5                                                            5 ',
-  ' 5                                                            5 ',
-  ' 5                                                            5 ',
-  ' 5                                                            5 ',
-  ' 5                                                            5 ',
-  ' 5                                                            5 ',
-  ' 000000000000000000000000000000000000000000000000000000       5 ',
-  '                                                              5 ',
-  ' 5                                                         0000 ',
-  ' 5                                                            5 ',
-  ' 5                                                     0      5 ',
-  ' 5                                                            5 ',
-  ' 5                                                         0000 ',
-  ' 5                                                            5 ',
-  ' 5                                                     0      5 ',
-  ' 5                                                            5 ',
-  ' 5                                                         0000 ',
-  ' 5                                                            5 ',
-  ' 5                                                     0      5 ',
-  ' 5                                                            5 ',
-  ' 5                                      000000             0000 ',
-  ' 5                  000                                       5 ',
-  ' 0000000                    00000000                00000000000 '],{
+  ' ø                                                            ø ',
+  ' ø                                                            ø ',
+  ' ø                                                            ø ',
+  ' ø                                                            ø ',
+  ' ø                                                            ø ',
+  ' ø                                                            ø ',
+  ' ø                                                            ø ',
+  ' ø                                                            ø ',
+  ' ø                                                            ø ',
+  ' FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF       ø ',
+  ' ø                                                            ø ',
+  ' ø                                                         G  ø ',
+  ' ø                                                            ø ',
+  ' ø                                                     G      ø ',
+  ' ø                                                            ø ',
+  ' ø                                                         G  ø ',
+  ' ø                                                            ø ',
+  ' ø                                                     G      ø ',
+  ' ø                                                            ø ',
+  ' ø                                                         G  ø ',
+  ' ø                                                            ø ',
+  ' ø                                                     G      ø ',
+  ' ø                                                            ø ',
+  ' ø                                       FFFFF             G  ø ',
+  ' ø                 GG                                         ø ',
+  'ßßßßßßßßßßßß      GG         FFFFFFF               FFFFFFFFFFFFF',
+  'ßßßßßßßßßßß                   FFFFF                 FFFFFFFFFFFF',
+  'ßßßßßßßßßß                     FFF                   FFFFFFFFFFF',
+  'ßßßßßßßßß                       F                     FFFFFFFFFF'],{
 tileWidth: 16,
 tileHeight: 16,
 tiles: {
-  0: () => [
-    sprite('platform-middle'),
-    area(),
-    body({isStatic: true})],
-  3: () => [
-    sprite('grass0'),
-    area(),
-    body({isStatic: true})],
-  4: () => [
-    sprite('ground-deep'),
-    area(),
-    body({isStatic: true})],
-  5: () => [
+  ø: () => [
     rect(16, 16),
     opacity(0),
     area(),
-    body({isStatic: true})],}})
+    body({isStatic: true})],
+  ß: () => [
+    sprite('iceBRICK'),
+    area(),
+    body({isStatic: true})],
+  G: () => [
+    sprite('greyBRICK'),
+    area(),
+    body({isStatic: true})],
+  F: () => [
+    sprite('fireBRICK'),
+    area(),
+    body({isStatic: true})],
+  }})
 map.use(scale(4))
 // enemy logic
 const PUSHdummy = add([
@@ -182,7 +205,7 @@ const PUSHdummy = add([
   scale(6),
   area(),
   body(),
-  pos(2080,713),
+  pos(2080,600),
   'enemy'])
 const ATKdummy = add([
   sprite('1dummy-right'),
@@ -196,7 +219,7 @@ const player = add([
   sprite('idle-sprite'),
   area({shape: new Rect(vec2(0), 26, 32), offset: vec2(38,32)}),
   body(),
-  pos(30,600),
+  pos(30,1420),
   scale(2.69),
   state('idle',['idle','atk','def','jump','fall','run','crouch'], {
     'idle': ['atk','run','jump','def','idle','fall','crouch'],
@@ -216,24 +239,12 @@ const pushPlanks = add([
   scale(6.9),
   area(),
   body(),
-  pos(280,710)])
+  pos(280,999)])
 // game logic (starting state)
 player.onStateEnter('idle', () => {
 player.use(sprite('idle-sprite'))
 player.play('idle-anim')
 wait(time, () => player.enterState())})
-// keyDown for touch controls
-const keyDown = {
-  left: false,
-  right: false,
-  up: false,
-  down: false,
-  start: false,
-  select: false,
-  Abtn: false,
-  Bbtn: false,
-  Xbtn: false,
-  Ybtn: false}
 // move right & move left
 /* (onKeyDown) to retain in-air directional controls) */  
 onKeyDown('d', () => {
@@ -242,7 +253,8 @@ onKeyDown('d', () => {
       player.enterState('run')
       player.play('run-anim')}
   if (player.direction !== 'right') player.direction = 'right'
-  player.move(player.speed, 0)})
+  player.move(player.speed, 0)
+})
 onKeyRelease('d', () => {
   if (player.isGrounded())
     player.enterState('idle')})
@@ -289,7 +301,7 @@ so the players sprite flips left & visa-versa) */
 onUpdate(() => {
   const cameraLeftBound = 711
   const cameraRightBound = 3317
-  const cameraVerticalOffset = player.pos.y - -20
+  const cameraVerticalOffset = player.pos.y - 30
   if (cameraLeftBound > player.pos.x) {
     camPos(cameraLeftBound, cameraVerticalOffset)} 
     else if (cameraRightBound < player.pos.x) {
@@ -314,10 +326,12 @@ player.onStateUpdate('idle', () => {
     player.use(sprite('jump-sprite'))
     player.enterState('jump')
     player.play('jump-anim')
+    play('iJumpF')
     player.jump(420 * 1.25)}
   if (isKeyDown('s')) {
     player.use(sprite('crouch-sprite'))
     player.enterState('crouch')
+    play('iJumpS')
     player.play('crouch-anim')}
   if (isKeyDown('q')) {
     player.use(sprite('block-sprite'))
@@ -326,17 +340,20 @@ player.onStateUpdate('idle', () => {
   if (isKeyDown('r')) {
     player.use(sprite('atk-sprite'))
     player.enterState('atk')
-    player.play('atk-anim')}})
+    player.play('atk-anim')
+    play('atkMISS')}})
 player.onStateUpdate('jump', () => {
   if (player.isFalling()) {
     player.enterState('fall')}})
 player.onStateUpdate('fall', () => {
   if (player.isGrounded()) {
+    play('iLand')
     player.enterState('idle')}})
 player.onStateUpdate('run', () => {
   if (isKeyDown('w')) {
     player.enterState('jump')
     player.play('jump-anim')
+    play('iJumpF')
     player.jump(420 * 1.25)}})
 // game logic (onKeyRelease functions)
 /* add functions here to make the control
