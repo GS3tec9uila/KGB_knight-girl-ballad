@@ -212,7 +212,15 @@ wait(time, () => player.enterState())})
 // keyDown for touch controls
 const keyDown = {
   left: false,
-  right: false}
+  right: false,
+  up: false,
+  down: false,
+  start: false,
+  select: false,
+  Abtn: false,
+  Bbtn: false,
+  Xbtn: false,
+  Ybtn: false}
 // move right & move left
 /* (onKeyDown) to retain in-air directional controls) */  
 onKeyDown('d', () => {
@@ -406,7 +414,7 @@ const Ybtn = add([
   fixed(),
   area(),
   pos(510,284)])
-// touch controls (onTouchStart functions)
+// touch controls (onTouchStart function)
 onTouchStart((id, pos) => {
   if (rgtbtn.hasPoint(pos)) {
 keyDown.right = true
@@ -419,5 +427,19 @@ else if (upbtn.hasPoint(pos)) {
   upbtn.opacity = 1}
 else if (dwnbtn.hasPoint(pos)) {
   keyDown.down = true
-  dwnbtw.opacity = 1
-}})
+  dwnbtw.opacity = 1}})
+// touch controls (onTouchEnd function)
+onTouchEnd((_, pos) => {
+  if (!rgtbtn.hasPoint(pos)) {
+    keyDown.right = false
+    rgtbtn.opacity = 0.5}
+  if (!lftbtn.hasPoint(pos)) {
+    keyDown.right = false
+    lftbtn.opacity = 0.5}
+  if (!upbtn.hasPoint(pos)) {
+    keyDown.right = false
+    upbtn.opacity = 0.5}
+  if (!dwnbtn.hasPoint(pos)) {
+    keyDown.right = false
+    dwnbtn.opacity = 0.5}
+})
