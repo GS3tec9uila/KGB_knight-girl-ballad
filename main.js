@@ -410,10 +410,10 @@ const Xbtn = add([
 const Ybtn = add([
   sprite('xboxY'),
   scale(3),
+  pos(510,284),
   opacity(.75),
   fixed(),
-  area(),
-  pos(510,284)])
+  area()])
 // touch controls (onTouchStart function)
 onTouchStart((id, pos) => {
   if (rgtbtn.hasPoint(pos)) {
